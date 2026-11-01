@@ -111,7 +111,7 @@
     $("#bal").textContent = peso(sv);
     $("#bal").className = "bv amt";
     $("#pIn").textContent = "📥 " + peso(sv);
-    $("#pLent").textContent = peso(ln);
+    $("#pLent").textContent = "🤝 " + peso(ln);
     logs();
     monthChart();
     $("#lbk").textContent = S.bk
