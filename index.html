@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="theme-color" content="#0f172a" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="PERSONAL RECORDER V2.0" />
+    <title>PERSONAL RECORDER V2.0</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="bgg"></div>
+
+    <header class="hd">
+      <div class="ttl">PERSONAL RECORDER V2.0</div>
+      <div class="hr">
+        <button class="mb sm" data-a="exp" aria-label="Export Backup">
+          💾<br />Export Backup
+        </button>
+        <button class="mb sm" data-a="imp" aria-label="Import Backup">
+          📂<br />Import Backup
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <button class="mb lgb" data-a="logs">📋 Transaction Logs</button>
+      <div class="card">
+        <div class="ch"><div class="ct">📥 Record savings</div></div>
+        <form id="f" autocomplete="off">
+          <div class="fg">
+            <label class="fl" for="fa">Amount (₱)</label
+            ><input
+              class="fi big"
+              id="fa"
+              name="amount"
+              type="number"
+              inputmode="decimal"
+              step="0.01"
+              min="0.01"
+              placeholder="0.00"
+              required />
+          </div>
+          <div class="fg">
+            <label class="fl" for="fd">Date</label
+            ><input class="fi" id="fd" name="date" type="date" required />
+          </div>
+          <div class="fg">
+            <label class="fl" for="fn">Note (optional)</label
+            ><input
+              class="fi"
+              id="fn"
+              name="note"
+              type="text"
+              placeholder="Description"
+              maxlength="60" />
+          </div>
+          <button class="sbtn" type="submit">Save entry</button>
+        </form>
+      </div>
+    </main>
+
+    <footer class="ft">
+      <span id="fc">0 entries</span>
+      <span id="fb">No backup yet</span>
+    </footer>
+
+    <input type="file" id="imf" accept=".json,application/json" class="hid" />
+
+    <!-- Transaction logs (full screen) -->
+    <div class="ov" id="lg">
+      <div class="full">
+        <div class="fh">
+          <span>Transaction Logs</span
+          ><button class="ib" data-a="back" aria-label="Close">✕</button>
+        </div>
+        <div class="tw">
+          <table>
+            <colgroup>
+              <col style="width: 29%" />
+              <col style="width: 24%" />
+              <col style="width: 29%" />
+              <col style="width: 18%" />
+            </colgroup>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Note</th>
+                <th class="c">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="tb"></tbody>
+          </table>
+        </div>
+        <div class="lb">
+          <button class="dall" data-a="delall">🗑️ Delete All Data</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit entry -->
+    <div class="ov dim end" id="ed">
+      <div class="sh">
+        <div class="mh">
+          <span>Edit entry</span
+          ><button class="ib" data-a="back" aria-label="Close">✕</button>
+        </div>
+        <div class="fg">
+          <label class="fl" for="eA">Amount (₱)</label
+          ><input
+            class="fi"
+            id="eA"
+            type="number"
+            inputmode="decimal"
+            step="0.01"
+            min="0.01" />
+        </div>
+        <div class="fg">
+          <label class="fl" for="eD">Date</label
+          ><input class="fi" id="eD" type="date" />
+        </div>
+        <div class="fg">
+          <label class="fl" for="eN">Note (optional)</label
+          ><input class="fi" id="eN" type="text" maxlength="60" />
+        </div>
+        <button class="sbtn" data-a="esave">Save changes</button>
+      </div>
+    </div>
+
+    <!-- Confirm -->
+    <div class="ov dim mid" id="cf">
+      <div class="sh dlg">
+        <div class="mh" id="cT">Are you sure?</div>
+        <div class="cm" id="cM"></div>
+        <div class="ca">
+          <button data-a="back">Cancel</button
+          ><button class="y" data-a="cyes" id="cB">Confirm</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="tc" id="tc"><div class="toast" id="toast"></div></div>
+
+    <script src="script.js" defer></script>
+  </body>
+</html>
