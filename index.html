@@ -5,10 +5,10 @@
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-    <meta name="theme-color" content="#0f172a" />
+    <meta name="theme-color" content="#0f172a" id="themeMeta" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-title" content="PERSONAL RECORDER V2.0" />
-    <title>PERSONAL RECORDER V2.0</title>
+    <meta name="apple-mobile-web-app-title" content="PERSONAL RECORDER" />
+    <title>PERSONAL RECORDER</title>
     <link
       rel="icon"
       href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>" />
@@ -16,104 +16,251 @@
   </head>
   <body>
     <div class="bgg"></div>
-
     <header class="hd">
-      <div class="ttl">PERSONAL RECORDER V2.0</div>
-      <div class="hr">
-        <button class="mb sm" data-a="exp" aria-label="Export Backup">
-          💾<br />Export Backup
-        </button>
-        <button class="mb sm" data-a="imp" aria-label="Import Backup">
-          📂<br />Import Backup
+      <div>
+        <div class="ttl">PERSONAL RECORDER</div>
+        <div class="sub" id="sub">Savings &amp; lent out</div>
+      </div>
+
+      <div class="acts">
+        <button
+          class="mb"
+          data-a="calc"
+          id="calcB"
+          aria-label="Open calculator"
+          aria-haspopup="dialog">
+          CALCU</button
+        ><button class="ib" data-a="theme" id="thB" aria-label="Toggle theme">
+          🌙
         </button>
       </div>
     </header>
 
     <main>
-      <button class="mb lgb" data-a="logs">📋 Transaction Logs</button>
-      <div class="card">
-        <div class="ch"><div class="ct">📥 Record savings</div></div>
-        <form id="f" autocomplete="off">
-          <div class="fg">
-            <label class="fl" for="fa">Amount (₱)</label
-            ><input
-              class="fi big"
-              id="fa"
-              name="amount"
-              type="number"
-              inputmode="decimal"
-              step="0.01"
-              min="0.01"
-              placeholder="0.00"
-              required />
-          </div>
-          <div class="fg">
-            <label class="fl" for="fd">Date</label
-            ><input class="fi" id="fd" name="date" type="date" required />
-          </div>
-          <div class="fg">
-            <label class="fl" for="fn">Note (optional)</label
-            ><input
-              class="fi"
-              id="fn"
-              name="note"
-              type="text"
-              placeholder="Description"
-              maxlength="60" />
-          </div>
-          <button class="sbtn" type="submit">Save entry</button>
-        </form>
+      <div class="bal">
+        <button class="ib" data-a="priv" aria-label="Hide amounts">👁️</button>
+        <div class="lb">Total Savings</div>
+        <div class="bv amt" id="bal">₱0.00</div>
       </div>
+      <section class="tab on" id="t-home">
+        <div class="g2">
+          <div class="st">
+            <div class="sv in" id="pIn">+₱0.00</div>
+            <div class="sl">Total saved</div>
+          </div>
+          <div class="st">
+            <div class="sv lent" id="pLent">₱0.00</div>
+            <div class="sl">Total lent out</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="ch">
+            <div class="ct" id="monthTitle">Last 6 months</div>
+            <div class="lg">
+              <span><i style="background: var(--in)"></i>Saved</span
+              ><span><i style="background: var(--gold)"></i>Lent out</span>
+            </div>
+          </div>
+          <div class="cn">
+            <button class="mb" data-a="cprev" id="cPrev">‹ Prev</button
+            ><button class="mb" data-a="cnext" id="cNext">Next ›</button>
+          </div>
+          <div class="chart">
+            <div class="yax" aria-hidden="true">
+              <span style="--i: 0">10000+</span><span style="--i: 1">9000</span
+              ><span style="--i: 2">8000</span><span style="--i: 3">7000</span
+              ><span style="--i: 4">6000</span><span style="--i: 5">5000</span
+              ><span style="--i: 6">4000</span><span style="--i: 7">3000</span
+              ><span style="--i: 8">2000</span><span style="--i: 9">1000</span
+              ><span style="--i: 10">0</span>
+            </div>
+            <div class="plotcol">
+              <div
+                class="plot"
+                id="bars"
+                role="img"
+                aria-label="Savings and lent out totals per month for the last 6 months"></div>
+              <div class="xax" id="xax"></div>
+            </div>
+          </div>
+          <div class="pm">
+            <span id="chSaved"></span><span id="chLent"></span>
+          </div>
+          <button class="gbtn" data-a="hist" style="margin: 14px 0 0">
+            📊 Activity history
+          </button>
+        </div>
+        <button class="gbtn" data-a="pinSettings">
+          🔒 PIN &amp; security settings
+        </button>
+        <div class="ov" id="pinSettings">
+          <div class="sh">
+            <div class="mh">
+              <span>App PIN</span
+              ><button class="ib" data-a="back" aria-label="Close">✕</button>
+            </div>
+            <div class="sl" id="pinStatus">No PIN set</div>
+            <div class="fg">
+              <label class="fl" for="pinCurrent"
+                >Current PIN (required to change or remove)</label
+              ><input
+                class="fi"
+                id="pinCurrent"
+                type="password"
+                inputmode="numeric"
+                autocomplete="current-password"
+                maxlength="8"
+                pattern="[0-9]{4,8}"
+                placeholder="4–8 digits" />
+            </div>
+            <div class="fg">
+              <label class="fl" for="pinNew">New PIN (4–8 digits)</label
+              ><input
+                class="fi"
+                id="pinNew"
+                type="password"
+                inputmode="numeric"
+                autocomplete="new-password"
+                maxlength="8"
+                pattern="[0-9]{4,8}"
+                placeholder="Leave blank to keep current setting" />
+            </div>
+            <div class="fg">
+              <label class="fl" for="pinConfirm">Confirm new PIN</label
+              ><input
+                class="fi"
+                id="pinConfirm"
+                type="password"
+                inputmode="numeric"
+                autocomplete="new-password"
+                maxlength="8"
+                pattern="[0-9]{4,8}"
+                placeholder="Re-enter new PIN" />
+            </div>
+            <button class="gbtn" data-a="setPin">Save PIN</button
+            ><button class="gbtn" data-a="removePin">Remove PIN</button>
+            <div class="sl">
+              This is a local app lock only. It does not encrypt ledger data
+              stored in this browser.
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="ch"><div class="ct">Backup &amp; data</div></div>
+          <div class="sl" id="lbk">No backup yet</div>
+          <button class="gbtn" data-a="exp">💾 Export backup (JSON)</button
+          ><button class="gbtn" data-a="imp">📂 Import backup</button
+          ><button class="gbtn" data-a="csv">📄 Export spreadsheet (CSV)</button
+          ><button class="dbtn" data-a="rst">⚠ Reset all data</button>
+        </div>
+      </section>
+      <section class="tab" id="t-sav">
+        <div class="card">
+          <div class="ch"><div class="ct">📥 Record savings</div></div>
+          <form data-f="Savings" autocomplete="off">
+            <div class="fg">
+              <label class="fl">Amount (₱)</label
+              ><input
+                class="fi big"
+                name="amount"
+                type="number"
+                inputmode="decimal"
+                step="0.01"
+                min="0.01"
+                placeholder="0.00"
+                required />
+            </div>
+            <div class="fg">
+              <label class="fl">Date</label
+              ><input class="fi" name="date" type="date" required />
+            </div>
+            <div class="fg">
+              <label class="fl">Note (optional)</label
+              ><input
+                class="fi"
+                name="note"
+                type="text"
+                placeholder="Description"
+                maxlength="60" />
+            </div>
+            <button class="sbtn" type="submit">Save entry</button>
+          </form>
+        </div>
+      </section>
+      <section class="tab" id="t-lent">
+        <div class="card">
+          <div class="ch"><div class="ct">🤝 Record lent out</div></div>
+          <form data-f="Lent Out" autocomplete="off">
+            <div class="fg">
+              <label class="fl">Amount (₱)</label
+              ><input
+                class="fi big"
+                name="amount"
+                type="number"
+                inputmode="decimal"
+                step="0.01"
+                min="0.01"
+                placeholder="0.00"
+                required />
+            </div>
+            <div class="fg">
+              <label class="fl">Date</label
+              ><input class="fi" name="date" type="date" required />
+            </div>
+            <div class="fg">
+              <label class="fl">Note (optional)</label
+              ><input
+                class="fi"
+                name="note"
+                type="text"
+                placeholder="Description"
+                maxlength="60" />
+            </div>
+            <button class="sbtn gold" type="submit">Record lent out</button>
+          </form>
+        </div>
+      </section>
+      <section class="tab" id="t-logs">
+        <div class="sr">
+          <input
+            class="fi"
+            id="q"
+            type="search"
+            placeholder="Search note, amount, date…" />
+        </div>
+        <div class="fg">
+          <label class="fl" for="fD">Filter by date</label
+          ><input class="fi" id="fD" type="date" />
+        </div>
+        <div class="chips fit" id="ft">
+          <button class="chip on" data-a="ft" data-v="all">All</button
+          ><button class="chip" data-a="ft" data-v="Savings">Savings</button
+          ><button class="chip" data-a="ft" data-v="Lent Out">Lent Out</button>
+        </div>
+        <div class="pm" style="margin: 0 2px 4px">
+          <span id="rc"></span><span class="amt" id="rt"></span>
+        </div>
+        <div id="list"></div>
+      </section>
     </main>
-
-    <footer class="ft">
-      <span id="fc">0 entries</span>
-      <span id="fb">No backup yet</span>
-    </footer>
 
     <input type="file" id="imf" accept=".json,application/json" class="hid" />
 
-    <!-- Transaction logs (full screen) -->
-    <div class="ov" id="lg">
-      <div class="full">
-        <div class="fh">
-          <span>Transaction Logs</span
-          ><button class="ib" data-a="back" aria-label="Close">✕</button>
-        </div>
-        <div class="tw">
-          <table>
-            <colgroup>
-              <col style="width: 29%" />
-              <col style="width: 24%" />
-              <col style="width: 29%" />
-              <col style="width: 18%" />
-            </colgroup>
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Amount</th>
-                <th>Note</th>
-                <th class="c">Actions</th>
-              </tr>
-            </thead>
-            <tbody id="tb"></tbody>
-          </table>
-        </div>
-        <div class="lb">
-          <button class="dall" data-a="delall">🗑️ Delete All Data</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Edit entry -->
-    <div class="ov dim end" id="ed">
+    <div class="ov" id="ed">
       <div class="sh">
         <div class="mh">
           <span>Edit entry</span
           ><button class="ib" data-a="back" aria-label="Close">✕</button>
         </div>
+        <div class="chips fit">
+          <button class="chip on" data-a="et" data-v="Savings" id="et-S">
+            📥 Savings</button
+          ><button class="chip" data-a="et" data-v="Lent Out" id="et-L">
+            🤝 Lent Out
+          </button>
+        </div>
         <div class="fg">
-          <label class="fl" for="eA">Amount (₱)</label
+          <label class="fl">Amount (₱)</label
           ><input
             class="fi"
             id="eA"
@@ -122,23 +269,27 @@
             step="0.01"
             min="0.01" />
         </div>
-        <div class="fg">
-          <label class="fl" for="eD">Date</label
-          ><input class="fi" id="eD" type="date" />
-        </div>
-        <div class="fg">
-          <label class="fl" for="eN">Note (optional)</label
+        <div class="fg" id="eNg">
+          <label class="fl">Note (optional)</label
           ><input class="fi" id="eN" type="text" maxlength="60" />
         </div>
-        <button class="sbtn" data-a="esave">Save changes</button>
+        <div class="fg">
+          <label class="fl">Date</label><input class="fi" id="eD" type="date" />
+        </div>
+        <button class="sbtn" data-a="esave">Save changes</button
+        ><button class="dbtn" data-a="edel">Delete entry</button>
       </div>
     </div>
 
-    <!-- Confirm -->
-    <div class="ov dim mid" id="cf">
-      <div class="sh dlg">
-        <div class="mh" id="cT">Are you sure?</div>
-        <div class="cm" id="cM"></div>
+    <div class="ov" id="cf">
+      <div class="sh">
+        <div class="mh" style="margin-bottom: 8px; font-size: 18px" id="cT">
+          Are you sure?
+        </div>
+        <div
+          class="sl"
+          style="font-size: 14px; line-height: 1.5; color: var(--tx2)"
+          id="cM"></div>
         <div class="ca">
           <button data-a="back">Cancel</button
           ><button class="y" data-a="cyes" id="cB">Confirm</button>
@@ -146,7 +297,121 @@
       </div>
     </div>
 
+    <div
+      id="pinGate"
+      style="
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 5000;
+        background: var(--bg);
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+      ">
+      <form id="unlockForm" class="card" style="width: 100%; max-width: 360px">
+        <div class="ct" style="margin-bottom: 12px">🔒 Enter your PIN</div>
+        <div class="sl" style="margin-bottom: 14px">
+          Unlock PERSONAL RECORDER to continue.
+        </div>
+        <input
+          class="fi"
+          id="unlockPin"
+          type="password"
+          inputmode="numeric"
+          autocomplete="current-password"
+          maxlength="8"
+          pattern="[0-9]{4,8}"
+          placeholder="4–8 digit PIN"
+          required />
+        <div
+          class="sl"
+          id="pinError"
+          style="color: var(--out); margin-top: 8px"></div>
+        <button class="sbtn" type="submit">Unlock</button>
+      </form>
+    </div>
+    <div
+      class="ov"
+      id="calcModal"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Calculator">
+      <div class="calc">
+        <div class="calc-h">
+          <span>Calculator</span
+          ><button class="ib" data-a="calcClose" aria-label="Close calculator">
+            ✕
+          </button>
+        </div>
+        <div class="cd" aria-live="polite">
+          <div class="cd-x" id="calcExp"></div>
+          <div class="cd-o" id="calcOut">0</div>
+        </div>
+        <div class="ckg">
+          <button class="k" data-a="ck" data-v="7">7</button>
+          <button class="k" data-a="ck" data-v="8">8</button>
+          <button class="k" data-a="ck" data-v="9">9</button>
+          <button class="k op" data-a="ck" data-v="÷" aria-label="Divide">
+            ÷
+          </button>
+          <button class="k" data-a="ck" data-v="4">4</button>
+          <button class="k" data-a="ck" data-v="5">5</button>
+          <button class="k" data-a="ck" data-v="6">6</button>
+          <button class="k op" data-a="ck" data-v="×" aria-label="Multiply">
+            ×
+          </button>
+          <button class="k" data-a="ck" data-v="1">1</button>
+          <button class="k" data-a="ck" data-v="2">2</button>
+          <button class="k" data-a="ck" data-v="3">3</button>
+          <button class="k op" data-a="ck" data-v="-" aria-label="Subtract">
+            -
+          </button>
+          <button class="k" data-a="ck" data-v="0">0</button>
+          <button class="k" data-a="ck" data-v="." aria-label="Decimal point">
+            .
+          </button>
+          <button class="k clr" data-a="ck" data-v="C" aria-label="Clear">
+            C
+          </button>
+          <button class="k eq" data-a="ck" data-v="=" aria-label="Equals">
+            =
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
+      class="ov"
+      id="histModal"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Activity history">
+      <div class="calc hist">
+        <div class="calc-h">
+          <span>Activity history</span
+          ><button
+            class="ib"
+            data-a="histClose"
+            aria-label="Close activity history">
+            ✕
+          </button>
+        </div>
+        <div class="hl" id="histList"></div>
+        <div class="hf"><span>All-time</span><span id="histTot"></span></div>
+      </div>
+    </div>
     <div class="tc" id="tc"><div class="toast" id="toast"></div></div>
+
+    <nav class="nav" id="nav">
+      <button class="ni" data-a="tab" data-v="home"><span>🏠</span>Home</button>
+      <button class="ni" data-a="tab" data-v="sav">
+        <span>📥</span>Savings
+      </button>
+      <button class="ni" data-a="tab" data-v="lent">
+        <span>🤝</span>Lent Out
+      </button>
+      <button class="ni" data-a="tab" data-v="logs"><span>📋</span>Logs</button>
+    </nav>
 
     <script src="script.js" defer></script>
   </body>
